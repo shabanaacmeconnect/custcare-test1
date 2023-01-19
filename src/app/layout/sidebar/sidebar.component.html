@@ -1,0 +1,66 @@
+     <!-- BEGIN: Side Menu -->
+     <nav class="side-nav" *ngIf="showmenu">
+        <ul>
+            <li *ngFor="let menu of menus">
+                <a *ngIf="!hasItems(menu)" [routerLink]="menu.link" class="side-menu" routerLinkActive="side-menu--active side-menu--open"><!--side-menu--active-->
+                    <div class="side-menu__icon"> <i-lucide [name]="menu.icon"></i-lucide> </div>
+                    <div class="side-menu__title">
+                        {{menu.label}} 
+                        <div *ngIf="hasItems(menu)" class="side-menu__sub-icon"><!-- transform rotate-180--> <i-lucide name="chevron-down"></i-lucide> </div>
+                    </div>
+                </a>
+                <a *ngIf="hasItems(menu)" class="side-menu"><!--side-menu--active-->
+                    <div class="side-menu__icon"> <i-lucide name="home"></i-lucide> </div>
+                    <div class="side-menu__title">
+                        {{menu.label}} 
+                        <div *ngIf="hasItems(menu)" class="side-menu__sub-icon"><!-- transform rotate-180--> <i-lucide name="chevron-down"></i-lucide> </div>
+                    </div>
+                </a>
+                <ul  *ngIf="hasItems(menu)" ><!--class="side-menu__sub-open"-->
+                    <li *ngFor="let submenu of menu.subItems">
+                        <a *ngIf="!hasItems(submenu)" [routerLink]="submenu.link"  class="side-menu">
+                            <div class="side-menu__icon"> <i-lucide name="activity"></i-lucide> </div>
+                            <div class="side-menu__title"> {{submenu.label}}
+                                <div *ngIf="hasItems(submenu)" class="side-menu__sub-icon "><!--transform rotate-180--> <i-lucide name="chevron-down"></i-lucide> </div>
+                            </div>
+                        </a>
+                        <a *ngIf="hasItems(submenu)"  class="side-menu">
+                            <div class="side-menu__icon"> <i-lucide name="activity"></i-lucide> </div>
+                            <div class="side-menu__title"> {{submenu.label}}
+                                <div *ngIf="hasItems(submenu)" class="side-menu__sub-icon "><!--transform rotate-180--> <i-lucide name="chevron-down"></i-lucide> </div>
+                            </div>
+                        </a>
+                        <ul class=""*ngIf="hasItems(submenu)">
+                            <li *ngFor="let subSubmenu of submenu.subItems">
+                                <a *ngIf="!hasItems(subSubmenu)" [routerLink]="subSubmenu.link"  class="side-menu">
+                                    <div class="side-menu__icon"> <i-lucide name="activity"></i-lucide> </div>
+                                    <div class="side-menu__title"> {{subSubmenu.label}} 
+                                        <div class="side-menu__sub-icon " *ngIf="hasItems(subSubmenu)"> <i-lucide name="chevron-down"></i-lucide> </div>
+                                    </div>
+                                </a>
+                                <a *ngIf="hasItems(subSubmenu)"  class="side-menu">
+                                    <div class="side-menu__icon"> <i-lucide name="activity"></i-lucide> </div>
+                                    <div class="side-menu__title"> {{subSubmenu.label}} 
+                                        <div class="side-menu__sub-icon " *ngIf="hasItems(subSubmenu)"> <i-lucide name="chevron-down"></i-lucide> </div>
+                                    </div>
+                                </a>
+                                <ul class="" *ngFor="let subsubsub of subSubmenu.subItems">
+                                    <li>
+                                        <a *ngIf="!hasItems(subsubsub)" [routerLink]="subsubsub.link"  class="side-menu">
+                                            <div class="side-menu__icon"> <i-lucide name="zap"></i-lucide> </div>
+                                            <div class="side-menu__title">{{subsubsub.label}}</div>
+                                        </a>
+                                        <a *ngIf="hasItems(subsubsub)"  class="side-menu">
+                                            <div class="side-menu__icon"> <i-lucide name="zap"></i-lucide> </div>
+                                            <div class="side-menu__title">{{subsubsub.label}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!-- END: Side Menu -->

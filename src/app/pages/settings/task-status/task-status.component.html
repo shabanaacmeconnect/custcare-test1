@@ -1,0 +1,62 @@
+<div class="grid grid-cols-12 gap-6 mt-5">
+    <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"><!--(click)="addNew()"-->
+        <h2 class="col-span-12 intro-y text-lg font-medium ml-4" >
+            Task Status
+        </h2>
+        <div class="hidden md:block mx-auto text-slate-500"></div>
+        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0 mr-2">
+            <div class="w-56 relative text-slate-500">
+                <input type="text" class="form-control w-56 box pr-10" placeholder="Search..." (keyup)="search()" [(ngModel)]="keyword" >
+                <i-lucide class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" name="search"></i-lucide> 
+            </div>
+        </div>
+        <button class="btn btn-primary shadow-md mr-2" (click)="addNew()"  data-tw-toggle="modal" data-tw-target="#basic-modal-preview" >Add Task Status</button>
+        
+    </div>
+    <!-- BEGIN: Data List -->
+    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <table class="table table-report -mt-2">
+            
+            <tbody>
+                <tr class="intro-x" *ngFor="let status of taskStatus">
+                  
+                    <td>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 rounded-full mr-3" [ngStyle]="{'background-color':status['color']}"></div>
+                            <a  class="truncate font-medium whitespace-nowrap">{{status['task_status_name']}}</a> 
+                        </div>
+                    </td>
+                    <td class="w-56">
+                        <div class="flex justify-end">
+                            <a class="flex items-center " href="javascript:;" (click)="edit(status)" data-tw-toggle="modal" data-tw-target="#basic-modal-preview"> <i-lucide name="edit" class="w-4 h-4"></i-lucide>  </a>
+                            <a *ngIf="status['default_id']!=1" class="ml-3 flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"  data-tw-target="#delete-confirmation-modal"(click)="callConfirm(status['id'],'delete')"> <i-lucide name="trash-2" class="w-4 h-4"></i-lucide>  </a>
+                        </div>
+                    </td>
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+    <!-- END: Data List -->
+    <div class="col-span-12 text-primary pl-2" *ngIf="taskStatus.length==0">
+        * No task status found.
+    </div>
+        <!-- <app-pagination class="col-span-12" [page]="pageCopy()" (newItemEvent)="changePage($event)"></app-pagination> -->
+    </div>
+    
+     
+     <!-- BEGIN: Slide Over Content -->
+     <div id="basic-modal-preview"  class="modal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header p-5">
+                     <h2 class="font-medium text-base mr-auto">{{companyData.title}} Status</h2>
+                 </div>
+                 <div class="modal-body"> 
+                     <app-status-form [companyData]="companyData" (saved)="saved()"></app-status-form>
+                 </div>
+             </div>
+         </div>
+     </div> <!-- END: Slide Over Content -->
+     <!-- <app-status-form></app-status-form> -->
+     <app-delete-confirmation  (confirmed)="confirmAction($event)" [message]="message"></app-delete-confirmation>

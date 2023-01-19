@@ -1,0 +1,32 @@
+<!-- BEGIN: Delete Confirmation Modal -->
+<div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="p-5 text-center">
+                    <i-lucide name="x-circle" *ngIf="message['type']=='delete' || message['type']=='disable'" class="w-16 h-16 text-danger mx-auto mt-3"></i-lucide> 
+                    <i-lucide name="check-circle" *ngIf="message['type']=='enable'" class="w-16 h-16 text-success mx-auto mt-3"></i-lucide> 
+                    <div class="text-3xl mt-5">Are you sure?</div>
+                    <div class="text-slate-500 mt-2" *ngIf="message['type']=='delete'">
+                        Do you really want to delete these records? 
+                        <br>
+                        This process cannot be undone.
+                    </div>
+                    <div class="text-slate-500 mt-2" *ngIf="message['type']=='undodelete'">
+                        Do you really want to undo these records? 
+                        <br>
+                        This process cannot be undone.
+                    </div>
+                </div>
+                <div class="px-5 pb-8 text-center">
+                    <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                    <button type="button" data-tw-dismiss="modal" class="btn btn-danger w-24" (click)="delete()"*ngIf="message['type']=='delete'">Delete</button>
+                    <button type="button" data-tw-dismiss="modal" class="btn btn-danger w-24" (click)="delete()"*ngIf="message['type']=='undodelete'">Undo</button>
+                    <button type="button" data-tw-dismiss="modal" class="btn btn-success text-white w-24" (click)="delete()"*ngIf="message['type']=='enable'">Enable</button>
+                    <button type="button" data-tw-dismiss="modal" class="btn btn-danger w-24" (click)="delete()"*ngIf="message['type']=='disable'">Disable</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- END: Delete Confirmation Modal -->

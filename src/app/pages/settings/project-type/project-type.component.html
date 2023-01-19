@@ -1,0 +1,58 @@
+<div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"><!--(click)="addNew()"-->
+            <h2 class="col-span-12 intro-y text-lg font-medium ml-4" >
+                Project Type
+            </h2>
+            <div class="hidden md:block mx-auto text-slate-500"></div>
+            <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0 mr-2">
+                <div class="w-56 relative text-slate-500">
+                    <input type="text" class="form-control w-56 box pr-10" placeholder="Search..." (keyup)="search()" [(ngModel)]="keyword" >
+                    <i-lucide class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" name="search"></i-lucide> 
+                </div>
+            </div>
+            <button class="btn btn-primary shadow-md mr-2" (click)="addNew()"  data-tw-toggle="modal" data-tw-target="#basic-modal-preview" >Add Project Type</button>
+            
+        </div>
+    <!-- BEGIN: Data List -->
+    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <table class="table table-report -mt-2">
+            
+            <tbody>
+                <tr class="intro-x" *ngFor="let projTp of projectType">
+                    
+                    <td>
+                        <a  class="font-medium whitespace-nowrap">{{projTp['project_type']}}</a> 
+                    </td>
+                    <td class="w-56">
+                        <div class="flex justify-end">
+                            <a class="flex items-center mr-3" href="javascript:;" (click)="edit(projTp)" data-tw-toggle="modal" data-tw-target="#basic-modal-preview"> <i-lucide name="edit" class="w-4 h-4 "></i-lucide> </a>
+                            <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"  data-tw-target="#delete-confirmation-modal"(click)="callConfirm(projTp['id'],'delete')"> <i-lucide name="trash-2" class="w-4 h-4 "></i-lucide> </a>
+                        </div>
+                    </td>
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+    <!-- END: Data List -->
+    <div class="col-span-12 text-primary pl-2" *ngIf="projectType.length==0">
+        * No project Types found.
+    </div>
+        <!-- <app-pagination class="col-span-12" [page]="pageCopy()" (newItemEvent)="changePage($event)"></app-pagination> -->
+    </div>
+    
+     
+     <!-- BEGIN: Slide Over Content -->
+     <div id="basic-modal-preview"  class="modal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header p-5">
+                     <h2 class="font-medium text-base mr-auto">{{companyData.title}} Project Type</h2>
+                 </div>
+                 <div class="modal-body"> 
+                    <app-project-type-form [companyData]="companyData" (saved)="saved()"></app-project-type-form>
+                 </div>
+             </div>
+         </div>
+     </div> <!-- END: Slide Over Content -->
+     <app-delete-confirmation (confirmed)="confirmAction($event)" [message]="message"></app-delete-confirmation>

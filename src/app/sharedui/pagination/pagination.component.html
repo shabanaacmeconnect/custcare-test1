@@ -1,0 +1,28 @@
+<!-- BEGIN: Pagination -->
+<div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+    <nav class="w-full sm:w-auto sm:mr-auto">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link"(click)="getFirst()" > <i-lucide class="w-4 h-4" name="chevrons-left"></i-lucide> </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" (click)=getPrev()> <i-lucide class="w-4 h-4" name="chevron-left"></i-lucide> </a>
+            </li>
+            <li class="page-item" [class]="page.page==item ?'page-item active':'page-item'" *ngFor="let item of pagelist" [attr.disabled]="item=='...'?true:null"> <a class="page-link" (click)="setPage(item)">{{item}}</a> </li>
+            
+            <li class="page-item">
+                <a class="page-link"(click)="getNext()"> <i-lucide class="w-4 h-4" name="chevron-right"></i-lucide> </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"(click)=getLast()> <i-lucide class="w-4 h-4" name="chevrons-right"></i-lucide> </a>
+            </li>
+        </ul>
+    </nav>
+    <select class="w-20 form-select box mt-3 sm:mt-0" [(ngModel)]="page.size"(change)="changesize()">
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="20">25</option>
+        <option [ngValue]="35">35</option>
+        <option [ngValue]="50">50</option>
+    </select>
+</div>
+<!-- END: Pagination -->

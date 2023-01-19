@@ -1,0 +1,42 @@
+<form (ngSubmit)="formsubmitted()" [formGroup]="form">
+
+    <div class="mt-3">
+        <label class="form-label">Project Status Name*</label>
+        <input type="text" class="form-control" formControlName="project_status_name"
+            [ngClass]="{'border-danger': submitted && f['project_status_name'].errors}" />
+        <div *ngIf="submitted && f['project_status_name'].errors" class="invalid-feedback text-danger">
+            <span *ngIf="f['project_status_name'].errors['required']">Project status is required.</span>
+        </div>
+    </div>
+    <!-- <div class="mt-3">
+        <label class="form-label">Company id*</label>
+        <input type="text" class="form-control" value="{{cid}}" readonly>
+        
+    </div> -->
+    <div class="mt-3">
+        <label class="form-label">Color*</label>
+        <input type="color" class="form-control" formControlName="color" 
+            [ngClass]="{'border-danger': submitted && f['color'].errors}" />
+        <div *ngIf="submitted && f['color'].errors" class="invalid-feedback text-danger">
+            <span *ngIf="f['color'].errors['required']">Company Email is required.</span>
+        </div>
+    </div>
+    <!-- <div class="mt-3">
+        <label class="form-label">Color *</label>
+        <select class="form-select mt-2 sm:mr-2" [ngClass]="{ 'border-danger': submitted && f['company_category_id'].errors }" formControlName="company_category_id"   aria-label="Default select example"> 
+        <option [value]="c['id']" *ngFor="let c of categories">{{c['category_name']}}</option>
+        </select>
+        <div *ngIf="submitted && f['company_category_id'].errors" class="invalid-feedback text-danger">
+            <span *ngIf="f['company_category_id'].errors['required']">Category is required.</span>
+        </div>
+    </div> -->
+    <div class="mt-3 mb-0 mt-3">
+        <div>
+            <button type="submit"  class="btn btn-primary mt-5" >
+                Submit
+            </button>
+            <div data-tw-dismiss="modal" #closemodal></div>
+
+        </div>
+    </div>
+</form>

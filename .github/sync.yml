@@ -1,0 +1,9 @@
+group:
+  repos: |
+    shabanaacmeconnect/custcare-v2-1@main
+  files:
+  - source: src/
+    dest: src/
+    exclude: |
+      .github/
+         

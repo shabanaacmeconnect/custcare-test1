@@ -1,0 +1,20 @@
+<div class="py-5 md:py-0">
+<app-topbar *ngIf="topbar"></app-topbar>
+<div class="flex overflow-hidden">
+    <app-sidebar></app-sidebar>
+     <!-- BEGIN: Content -->
+     <div class="content">
+
+        <!-- <div class="alert alert-primary show mt-2" role="alert" >
+            <div class="flex items-center">
+                <div class="font-medium text-lg">Verify Account</div>
+                <div role="button" (click)="resentemail()" class="text-xs bg-white px-1 rounded-md text-slate-700 ml-auto">Resent Email</div>
+            </div>
+            <div class="mt-3">Please check your email. You need to verify the account to unlock the complete access.</div>
+        </div> -->
+        <app-notification [message]="message"></app-notification>
+        <router-outlet></router-outlet>
+    </div>
+    <!-- END: Content -->
+</div>
+</div>

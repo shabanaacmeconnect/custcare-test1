@@ -1,0 +1,107 @@
+
+        <form  [formGroup]="form">
+            <div class="modal-header p-5 block">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 ">
+                        <input type="text" class="w-full border-none text-lg font-medium" (change)="formsubmitted()" formControlName="task_name" autofocus #autofocus maxlength="100" minlength="2"
+                            [ngClass]="{'border-danger': submitted && f['task_name'].errors}" />
+                        <div *ngIf="submitted && f['task_name'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['task_name'].errors['required']">Task Name is required.</span>
+                            <span *ngIf="f['task_name'].errors['minLength']">Valid Task Name is required.</span>
+                            <span *ngIf="f['task_name'].errors['maxLength']">Valid Task Name is required.</span>
+                        </div>
+                    </div> <!-- <h2 class="font-medium text-base mr-auto">{{taskData.title}} Task</h2> -->
+                    <div class="col-span-6">
+                        <label class="form-label">Task Type </label>
+                        <select class="form-select mt-2 sm:mr-2" (change)="formsubmitted()" [ngClass]="{ 'border-danger': submitted && f['task_type_id'].errors }" formControlName="task_type_id"   aria-label="Default select example"> 
+                            <option [ngValue]="null" [disabled]="true"></option>
+                            <option [value]="data['id']" *ngFor="let data of taskTypes">{{data['task_type_name']}}</option>
+                        </select>
+                        <div *ngIf="submitted && f['task_type_id'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['task_type_id'].errors['required']">Task Type is required.</span>
+                        </div>
+                    </div>
+                    <div class="col-span-6">
+                        <label class="form-label">Task Status </label>
+                        <select class="form-select mt-2 sm:mr-2" (change)="formsubmitted()" [ngClass]="{ 'border-danger': submitted && f['task_status_id'].errors }" formControlName="task_status_id"   aria-label="Default select example"> 
+                            <option [ngValue]="null" [disabled]="true"></option>
+                            <option [value]="data['id']" *ngFor="let data of taskStatus">{{data['task_status_name']}}</option>
+                        </select>    
+                        <div *ngIf="submitted && f['task_status_id'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['task_status_id'].errors['required']">Task Status is required.</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-body"> 
+               
+                    
+                    <!-- <div class="mt-3">
+                        <label class="form-label">Task Description</label>
+                        <input type="text" class="form-control" formControlName="task_description"
+                            [ngClass]="{'border-danger': submitted && f['task_description'].errors}" />
+                        <div *ngIf="submitted && f['task_description'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['task_description'].errors['required']">Task Description is required.</span>
+                        </div>
+                    </div>-->
+                    
+                   
+                    <!--<div class="mt-3">
+                        <label class="form-label">Client Visibility </label>
+                        <select class="form-select mt-2 sm:mr-2" [ngClass]="{ 'border-danger': submitted && f['client_visibility'].errors }" formControlName="client_visibility"   aria-label="Default select example"> 
+                        <option [value]="data['id']" *ngFor="let data of taskTypes">{{data['project_type']}}</option> 
+                            <option value="1">Static Data</option>
+                        </select>    
+                        <div *ngIf="submitted && f['client_visibility'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['client_visibility'].errors['required']">Client Visibility is required.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <label class="form-label">Due Date </label>
+                        <input type="date" class="form-control" formControlName="due_date"
+                            [ngClass]="{'border-danger': submitted && f['due_date'].errors}" />
+                        <div *ngIf="submitted && f['due_date'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['due_date'].errors['required']">Due Date is required.</span>
+                        </div>
+                    </div> -->
+                    
+                    
+                    <!-- <div class="mt-3 mb-0 mt-3">
+                        <div>
+                            <button type="submit"  class="btn btn-primary mt-5"  >
+                                Submit
+                            </button>
+                            <div data-tw-dismiss="modal" #closemodal></div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
+                        <div class="intro-y pr-1">
+                            <div class="box p-2">
+                                <ul class="nav nav-pills" role="tablist">
+                                    <li id="chats-tab"(click)="getRandom()"  class="nav-item flex-1" role="presentation">
+                                        <button class="nav-link w-full py-2 active" data-tw-toggle="pill" data-tw-target="#chats" type="button" role="tab" aria-controls="chats" aria-selected="true" > Team Chat </button>
+                                    </li>
+                                    <li id="clients-tab"(click)="getRandom()"  class="nav-item flex-1" role="presentation">
+                                        <button class="nav-link w-full py-2" data-tw-toggle="pill" data-tw-target="#clients" type="button" role="tab" aria-controls="clients" aria-selected="false" > Client Chat </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
+                                <!-- <router-outlet></router-outlet> -->
+                                <app-task-chat *ngIf="taskData.details.id" [details]="{type:'team',project_id:project_id,company_id:companyId,task:taskData.details.id,thread:taskData.details.teamChat_thread_id,i:rand}"></app-task-chat>
+                            </div>
+                            <div id="clients" class="tab-pane" role="tabpanel" aria-labelledby="clients-tab">
+                                <!-- <router-outlet></router-outlet> -->
+                                <app-task-chat *ngIf="taskData.details.id" [details]="{type:'client',project_id:project_id,company_id:companyId,task:taskData.details.id,thread:taskData.details.clientChat_thread_id,i:rand}"></app-task-chat>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+        </form>
+    

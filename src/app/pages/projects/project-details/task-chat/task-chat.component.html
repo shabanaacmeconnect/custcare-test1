@@ -1,0 +1,87 @@
+<div class="intro-y chat grid grid-cols-12 gap-5 mt-5">
+    <!-- BEGIN: Chat Content -->
+    <div class="intro-y col-span-12 lg:col-span-12 2xl:col-span-12">
+        <div class="chat__box box">
+            <!-- BEGIN: Chat Active -->
+            <div class="w-full h-full flex flex-col">
+                <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1" #scroll>
+                    <div *ngFor="let chat of chats;let chatindex=index" >
+                        <div *ngIf="chat['created_by']!=currentUser['user_id']" class="chat__box__text-box flex items-end float-left mb-4">
+                            <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
+                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="assets/dist/images/profile-15.jpg">
+                            </div>
+                            <div class="bg-slate-100 dark:bg-darkmode-400 px-4 py-3 text-slate-500 rounded-r-md rounded-t-md">
+                                <span *ngIf="chat['type']==1">{{chat['message']}}</span>
+                                <span *ngIf="chat['type']==2">
+                                    <a *ngIf=" !getType(chat['attachment']['mimetype'])" [href]="chat['attachment']['path']"  target="_blank"><i-lucide name="file"></i-lucide></a>
+                                    <a *ngIf=" getType(chat['attachment']['mimetype'])" [href]="" target="_blank"><img [src]="chat['attachment']['path']" width=150 /></a> 
+                                </span>
+                                <div class="mt-1 text-xs text-slate-500">{{chat['created_at'] |date}}</div>
+                            </div>
+                            <div class="hidden sm:block dropdown ml-3 my-auto">
+                                <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-slate-500" aria-expanded="false" data-tw-toggle="dropdown"> <i-lucide name="more-vertical" class="w-4 h-4"></i-lucide> </a>
+                                <div class="dropdown-menu w-40">
+                                    <ul class="dropdown-content">
+                                        <li>
+                                            <a href="" class="dropdown-item"> <i-lucide name="corner-up-left" class="w-4 h-4 mr-2"></i-lucide> Reply </a>
+                                        </li>
+                                        <li>
+                                            <a href="" class="dropdown-item"> <i-lucide name="trash" class="w-4 h-4 mr-2"></i-lucide> Delete </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="chat['created_by']==currentUser['user_id']" class="chat__box__text-box flex items-end float-right mb-4">
+                            <div class="hidden sm:block dropdown mr-3 my-auto">
+                                <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-slate-500" aria-expanded="false" data-tw-toggle="dropdown"> <i-lucide name="more-vertical" class="w-4 h-4"></i-lucide> </a>
+                                <div class="dropdown-menu w-40">
+                                    <ul class="dropdown-content">
+                                        <li>
+                                            <a href="" class="dropdown-item"> <i-lucide name="corner-up-left" class="w-4 h-4 mr-2"></i-lucide> Reply </a>
+                                        </li>
+                                        <li>
+                                            <a href="" class="dropdown-item"> <i-lucide name="trash" class="w-4 h-4 mr-2"></i-lucide> Delete </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bg-primary px-4 py-3 text-white rounded-l-md rounded-t-md">
+                                <span *ngIf="chat['type']==1">{{chat['message']}}</span>
+                                <span *ngIf="chat['type']==2">
+                                    <a *ngIf=" !getType(chat['attachment']['mimetype'])" [href]="chat['attachment']['path']"  target="_blank"><i-lucide name="file"></i-lucide></a>
+                                    <a *ngIf=" getType(chat['attachment']['mimetype'])" [href]="" target="_blank"><img [src]="chat['attachment']['path']" width=150 /></a> 
+                                </span>
+                                <div class="mt-1 text-xs text-white text-opacity-80">{{chat['created_at']|date}} </div>
+                            </div>
+                            <div class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
+                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="assets/dist/images/profile-8.jpg">
+                            </div>
+                        </div>
+                        <div class="clear-both" ></div>
+                    </div>
+                    <!-- <div class="text-slate-400 dark:text-slate-500 text-xs text-center mb-10 mt-5">12 June 2020</div> -->
+                </div><!-- (keydown)="enterMessage($event)"-->
+                <form class=" pb-10 sm:py-4 flex items-center border-t border-slate-200/60 dark:border-darkmode-400" (ngSubmit)="messageSave()" [formGroup]="formData"><!-- -->
+                    <input type="text" formControlName="message"  class="chat__box__input form-control dark:bg-darkmode-600 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:border-transparent focus:ring-0" rows="1" placeholder="Type your message..."/>
+
+                    <div class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0">
+                        <div (click) ="toggleEmojiPicker()" class=" mr-3 sm:mr-5 " style="position :relative">
+                            <a href="javascript:;" class=" w-4 h-4 sm:w-5 sm:h-5 block text-slate-500" > <i-lucide name="smile" class="w-full h-full"></i-lucide> </a>
+                           
+                        </div>
+                        <emoji-mart class="emoji-mart " style=" position: absolute; right: 0; bottom: 5rem;"*ngIf=" showEmojiPicker" [set]="set"  (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+
+                        <div class="w-4 h-4 sm:w-5 sm:h-5 relative text-slate-500 mr-3 sm:mr-5">
+                            <i-lucide name="paperclip" class="w-full h-full"></i-lucide> 
+                            <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0" (change)="onFileSelectedtrigger($event)" >
+                        </div>
+                    </div>
+                    <button href="javascript:;" type="submit" class="w-8 h-8 sm:w-10 sm:h-10 block bg-primary text-white rounded-full flex-none flex items-center justify-center mr-5"> <i-lucide name="send" class="w-4 h-4"></i-lucide> </button>
+                </form>
+            </div>
+            <!-- END: Chat Active -->
+        </div>
+    </div>
+    <!-- END: Chat Content -->
+</div>

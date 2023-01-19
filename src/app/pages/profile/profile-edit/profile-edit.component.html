@@ -1,0 +1,40 @@
+<div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 2xl:col-span-6 p-5 pt-0 m-5">
+            <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"><!--(click)="addNew()"-->
+                <h2 class="col-span-12 intro-y text-lg font-medium ml-0" >
+                    Personal Information
+                </h2>
+            </div>
+            <div class=" ">
+                <form [formGroup]="form">
+
+                    <div class="mt-3">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" class="form-control" formControlName="first_name" (change)="formsubmitted()"
+                            [ngClass]="{'border-danger': submitted && f['first_name'].errors}" />
+                        <div *ngIf="submitted && f['first_name'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['first_name'].errors['required']">First Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" class="form-control" formControlName="last_name" (change)="formsubmitted()"
+                            [ngClass]="{'border-danger': submitted && f['last_name'].errors}" />
+                        <div *ngIf="submitted && f['last_name'].errors" class="invalid-feedback text-danger">
+                            <span *ngIf="f['last_name'].errors['required']">Last Name is required.</span>
+                        </div>
+                    </div>
+                    
+                    <div class=" mt-3">
+                        <label for="input-filter-3" class="form-label">Time Zone</label>
+                        <select class="w-22 form-control" formControlName="timezone_id" (change)="formsubmitted()">
+                            <option *ngFor="let type of timeZone" [ngValue]="type['id']">{{type['timezone']}}</option>
+                        </select>                               
+                    </div> 
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

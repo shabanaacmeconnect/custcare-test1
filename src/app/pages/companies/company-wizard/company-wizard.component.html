@@ -1,0 +1,59 @@
+<div class="intro-y box py-10 sm:py-20 mt-5">
+    <form (ngSubmit)="formsubmitted()" [formGroup]="form">
+
+    <div class="flex justify-center">
+        <button type="button" class="intro-y w-10 h-10 rounded-full btn  mx-2" [ngClass]="step==1?'btn-primary':'bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500'">1</button>
+        <button type="button"class="intro-y w-10 h-10 rounded-full btn  mx-2" [ngClass]="step==2?'btn-primary':'bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500'">2</button>
+        <button type="button" class="intro-y w-10 h-10 rounded-full btn  mx-2" [ngClass]="step==3?'btn-primary':'bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500'">3</button>
+       
+    </div>
+    <div class="px-5 mt-10 " *ngIf="step!=3">
+        <div class="font-medium text-center text-lg">Setup Your Company</div>
+        <div class="text-slate-500 text-center mt-2">To start off, please enter your company name.</div>
+    </div>
+    <div class="px-5 mt-10 " *ngIf="step==3">
+        <div class="font-medium text-center text-lg text-success">Success</div>
+        <div class="text-slate-500 text-center mt-2"*ngIf="!companyData">Added company successfully.</div>
+        <div class="text-slate-500 text-center mt-2"*ngIf="companyData">Updated company successfully.</div>
+    </div>
+    <div *ngIf="step==1" class="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
+        <div class="font-medium text-base">Profile Settings</div>
+        <div class="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+            <div class="intro-y col-span-12 sm:col-span-12">
+                <label for="input-wizard-1" class="form-label" fork>Company Name</label>
+                <input id="input-wizard-1" type="text" class="form-control"formControlName="company_name"
+                [ngClass]="{'border-danger': submitted && f['company_name'].errors}" />
+                <div *ngIf="submitted && f['company_name'].errors" class="invalid-feedback text-danger">
+                    <span *ngIf="f['company_name'].errors['required']">Company Name is required.</span>
+                </div>
+            </div>
+            <div class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
+                <!-- <button class="btn btn-secondary w-24">Previous</button> -->
+                <button class="btn btn-primary w-24 ml-2" type="button" (click)="goNext()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="step==2" class="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
+        <div class="font-medium text-base">Category Settings</div>
+        <div class="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+            <div *ngFor="let category of categories" [ngClass]="category_id==category['id']?'bg-primary':''" (click)="setCategory(category['id'])" class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer zoom-in">
+                <div class="font-medium text-base"  [ngClass]="category_id==category['id']?'text-white':''">{{category['category_name']}}</div>
+                <!-- <div class="" [ngClass]="category_id==category['id']?'text-white text-opacity-80 dark:text-slate-500':'text-slate-500'">5 Items</div> -->
+            </div>
+
+            <div class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
+                <button class="btn btn-secondary w-24" (click)="goBack()">Previous</button>
+                <button class="btn btn-primary w-24 ml-2" type="button" (click)="goNext()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="step==3" class="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400 flex justify-center">
+        <div class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
+            <button class="btn btn-primary w-50 ml-2" type="button" routerLink="/companies">View companies</button>
+        </div>
+    
+    </div>
+    </form>
+</div>

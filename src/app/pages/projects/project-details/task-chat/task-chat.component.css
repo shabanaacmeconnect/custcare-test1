@@ -1,0 +1,3 @@
+.chat .chat__box {
+    height: calc(100vh - 280px) !important;
+}

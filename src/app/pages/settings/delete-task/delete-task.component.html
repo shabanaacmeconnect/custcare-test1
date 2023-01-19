@@ -1,0 +1,88 @@
+<div id="tasks" class="tab-pane active" role="tabpanel" aria-labelledby="tasks-tab">
+    <div class="grid grid-cols-12 gap-6 mt-8">
+        
+        <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
+            <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"><!--(click)="addNew()"-->
+                <h2 class="col-span-12 intro-y text-lg font-medium ml-4" >
+                    Deleted Tasks
+                </h2>
+                <div class="hidden md:block mx-auto text-slate-500"></div>
+                <div  class=" mt-3 sm:mt-0 sm:ml-auto md:ml-0 mr-2">
+                    <label for="input-filter-2" class="form-label text-xs font-medium w-25 pl-3">From Date</label>
+                    <input type="date" class="form-control w-25  box pr-10" placeholder="Search..."
+                    [(ngModel)]="from_date" (change)="datesearch()" [max]="to_date">
+
+                </div> 
+                <div  class=" mt-3 sm:mt-0 sm:ml-auto md:ml-0 mr-2">
+                    <label for="input-filter-2" class="form-label text-xs font-medium w-25  pl-3">To Date</label>
+                    <input type="date" class="form-control w-25  box pr-10" placeholder="Search..."
+                    [(ngModel)]="to_date" (change)="datesearch()" [min]="from_date">
+
+                </div> 
+                <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0  ">
+                    <div class="w-30 relative text-slate-500 mt-4">
+                        <input type="text" class="form-control w-30 box pr-10" placeholder="Search..." (keyup)="search()" [(ngModel)]="keyword" >
+                        <i-lucide class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" name="search"></i-lucide> 
+                    </div>
+                </div>                
+                <button *ngIf="project_id" class="btn btn-primary shadow-md mr-2"  data-tw-toggle="modal" data-tw-target="#superlarge-slide-over-size-preview">Add Tasks</button>
+            </div>
+            <!-- BEGIN: Inbox Content -->
+            <div class="intro-y inbox box mt-5">
+                 <div class="p-5 flex flex-col-reverse sm:flex-row text-slate-500 border-b border-slate-200/60">
+                    <div class="flex items-center mt-3 sm:mt-0 border-t sm:border-0 border-slate-200/60 pt-5 sm:pt-0 mt-5 sm:mt-0 -mx-5 sm:mx-0 px-5 sm:px-0">
+                        <input class="form-check-input" type="checkbox"[(ngModel)]="selectedAll" (click)="selectAll()">
+                        
+                        <a href="javascript:;" class="w-5 h-5 ml-5 flex items-center justify-center"> <i-lucide class="w-4 h-4" name="refresh-cw" (click)="getList()"></i-lucide> </a>
+                    </div>
+                </div> 
+                <div class="overflow-x-auto sm:overflow-x-visible">
+                    <div class="intro-y" *ngFor="let data of tasks; let i=index">
+                        <div class="inbox__item inbox__item--active inline-block sm:block text-slate-600 dark:text-slate-500 bg-slate-100 dark:bg-darkmode-400/70 border-b border-slate-200/60 dark:border-darkmode-400">
+                            <div class="flex px-5 py-3" >
+                                
+                                <div class="w-6 flex-none flex items-center mr-5">
+                                    <input class="form-check-input flex-none" type="checkbox"(click)="checklist(data.id,i)" [checked]="data['selected']==true">
+                                </div><!--w-25rem-->
+                                <div class="w-12">
+                                    <div class="flex">
+                                        <div class="w-10 h-10 image-fit zoom-in">
+                                            <img alt="" class="tooltip rounded-full" src="assets/dist/images/preview-8.jpg" title="Uploaded at 3 February 2022">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div  class="flex items-center w-auto truncate"> <span class="inbox__item--highlight">{{data['task_name']}} </span></div>
+                                <div  class="flex items-center inbox__item--time whitespace-nowrap ml-auto pl-10 flex">
+                                    <div  class="w-32 inbox__item--sender truncate ml-3 text-center">{{data['task_type_name']}}</div>
+                                    <div  class="w-32 py-1 px-2 text-xs cursor-pointer font-medium truncate text-center" [ngStyle]="{'color':data['color']}">{{data['task_status_name']?data['task_status_name']:'--'}}</div>
+                                    <span class="w-24 truncate text-right" *ngIf="isSameYear(i)">{{data['created_at']|date}}</span>
+                                    <span class="w-24 truncate  text-right" *ngIf="!isSameYear(i)">{{data['created_at']|date:'MMM d'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+            </div>
+            <!-- END: Inbox Content -->
+        </div>
+        <div class="col-span-12 text-primary pl-2" *ngIf="tasks.length==0">
+            * No tasks found.
+        </div>
+        <app-pagination *ngIf="page.totalElements>1000" class="col-span-12" [page]="pageCopy()" (newItemEvent)="changePage($event)"></app-pagination>
+
+    </div>
+</div>
+
+<div class="flex justify-center items-center" *ngIf="selectedTasks.length>0">
+    <div class="shadow-md fixed bottom-0 box dark:bg-dark-2 border w-25rem h-12 flex items-center justify-center z-50 mb-10 mr-10">
+        <div class="mr-4 text-gray-700 dark:text-gray-300 flex"> 
+            <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"  data-tw-target="#delete-confirmation-modal"(click)="callConfirm('undodelete')"> <i-lucide name="archive-restore" class="w-4 h-4 mr-1"></i-lucide>  </a>
+        </div>
+     </div>
+</div>
+     
+    
+     <app-delete-confirmation  (confirmed)="confirmAction($event)" [message]="message"></app-delete-confirmation>
